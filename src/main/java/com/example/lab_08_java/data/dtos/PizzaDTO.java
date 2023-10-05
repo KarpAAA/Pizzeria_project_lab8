@@ -1,6 +1,4 @@
-package com.example.lab_08_java.data;
-
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
+package com.example.lab_08_java.data.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

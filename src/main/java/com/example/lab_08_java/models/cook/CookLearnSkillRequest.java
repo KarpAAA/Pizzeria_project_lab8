@@ -1,7 +1,5 @@
-package com.example.lab_08_java.models;
+package com.example.lab_08_java.models.cook;
 
-import com.example.lab_08_java.entities.restaurant.Cook;
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

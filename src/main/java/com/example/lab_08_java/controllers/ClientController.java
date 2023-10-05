@@ -17,6 +17,6 @@ public class ClientController {
     @PostMapping("/new")
     public ResponseEntity<?> createNewClient(){
         Client client = clientServices.createNewClient();
-        return ResponseEntity.ok("Clilent was created!\n" + client);
+        return ResponseEntity.ok("Client was created!\n" + client);
     }
 }

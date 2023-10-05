@@ -1,6 +1,8 @@
 package com.example.lab_08_java.data;
 
 
+import com.example.lab_08_java.data.dtos.CookDTO;
+import com.example.lab_08_java.data.dtos.PizzaDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

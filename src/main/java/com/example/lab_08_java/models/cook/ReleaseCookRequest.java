@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReleaseCookRequest {
-    private int cookIndex;
+    private int cookId;
 }

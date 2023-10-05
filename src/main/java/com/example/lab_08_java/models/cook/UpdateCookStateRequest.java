@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UpdateCookStateRequest {
-    private int cookIndex;
+    private int cookId;
     private boolean workingState;
+
 }

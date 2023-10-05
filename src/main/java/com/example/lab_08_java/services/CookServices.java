@@ -1,14 +1,12 @@
 package com.example.lab_08_java.services;
 
 import com.example.lab_08_java.data.Restaurant;
-import com.example.lab_08_java.data.CookDTO;
+import com.example.lab_08_java.data.dtos.CookDTO;
 import com.example.lab_08_java.entities.restaurant.Cook;
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
+import com.example.lab_08_java.entities.restaurant.Step;
 import com.example.lab_08_java.entities.user.User;
-import com.example.lab_08_java.models.cook.RegisterCookModel;
 import com.example.lab_08_java.models.cook.ReleaseCookRequest;
 import com.example.lab_08_java.models.cook.UpdateCookStateRequest;
-import com.example.lab_08_java.models.user.RegisterUser;
 import com.example.lab_08_java.repositories.CookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +27,7 @@ public class CookServices {
     }
 
     public boolean releaseCook(ReleaseCookRequest releaseCookRequest) {
-        restaurant
-                .getCooks()
-                .remove(releaseCookRequest.getCookIndex());
+        cookRepository.deleteById((long) releaseCookRequest.getCookId());
         return true;
     }
 
@@ -47,10 +43,9 @@ public class CookServices {
     }
 
     public boolean updateCookState(UpdateCookStateRequest updateCookStateRequest) {
-        restaurant
-                .getCooks()
-                .get(updateCookStateRequest.getCookIndex())
-                .setIfWorking(updateCookStateRequest.isWorkingState());
+        Cook cook = cookRepository.findById((long) updateCookStateRequest.getCookId()).get();
+        cook.setWorkState(updateCookStateRequest.isWorkingState() ? Cook.WORK_STATE.WORKING : Cook.WORK_STATE.NOT_WORKING);
+        cookRepository.save(cook);
         return true;
     }
 
@@ -62,6 +57,6 @@ public class CookServices {
     private CookDTO cookToCookDTO(Cook cook){
         return new CookDTO(cook.getId(),cook.getName(),cook.getSalary(),
                 cook.getAbilities().stream().map(Step::getName).toList(),
-                true);
+                cook.getWorkState() == Cook.WORK_STATE.WORKING);
     }
 }

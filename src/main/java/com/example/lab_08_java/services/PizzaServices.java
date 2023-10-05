@@ -1,8 +1,7 @@
 package com.example.lab_08_java.services;
 
-import com.example.lab_08_java.data.PizzaDTO;
-import com.example.lab_08_java.data.StepDTO;
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
+import com.example.lab_08_java.data.dtos.PizzaDTO;
+import com.example.lab_08_java.data.dtos.StepDTO;
 import com.example.lab_08_java.repositories.PizzaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.example.lab_08_java.services;
 
 import com.example.lab_08_java.data.Paydesk;
 import com.example.lab_08_java.data.Restaurant;
-import com.example.lab_08_java.models.QueueRequest;
+import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.models.paydesks.DeletePaydeskRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import org.springframework.stereotype.Service;
@@ -12,18 +12,6 @@ import java.util.List;
 @Service
 public class PaydeskServices {
 
-    public boolean addPaydesks(Restaurant restaurant) {
-        return restaurant
-                .getPaydesks()
-                .add(new Paydesk("Casa" + restaurant.getPaydesks().size(), List.of(), Paydesk.Availability.NOT_AVAILABLE));
-    }
-
-    public boolean deletePaydesk(DeletePaydeskRequest deleteRequest, Restaurant restaurant) {
-        restaurant
-                .getPaydesks()
-                .remove(deleteRequest.getPaydeskIndex());
-        return true;
-    }
 
     public boolean updatePaydesk(UpdatePaydeskRequest updatePaydeskRequest, Restaurant restaurant) {
         restaurant

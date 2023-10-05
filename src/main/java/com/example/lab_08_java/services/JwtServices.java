@@ -1,7 +1,7 @@
-package com.example.lab_08_java.services.security;
+package com.example.lab_08_java.services;
 
 import com.example.lab_08_java.entities.user.User;
-import com.example.lab_08_java.models.JwtToken;
+import com.example.lab_08_java.models.response.JwtToken;
 import com.example.lab_08_java.models.user.LoginUser;
 import com.example.lab_08_java.services.UserServices;
 import io.jsonwebtoken.Claims;

@@ -1,4 +1,4 @@
-package com.example.lab_08_java.entities.restaurant.pizza;
+package com.example.lab_08_java.entities.restaurant;
 
 import com.example.lab_08_java.entities.base.BaseEntity;
 import jakarta.persistence.AttributeOverride;

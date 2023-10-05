@@ -1,4 +1,4 @@
-package com.example.lab_08_java.data;
+package com.example.lab_08_java.data.dtos;
 
 import com.example.lab_08_java.entities.user.User;
 import lombok.AllArgsConstructor;

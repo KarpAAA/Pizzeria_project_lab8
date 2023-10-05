@@ -1,8 +1,7 @@
 package com.example.lab_08_java.controllers;
 
-import com.example.lab_08_java.models.CookLearnSkillRequest;
-import com.example.lab_08_java.models.SkillsResponse;
-import com.example.lab_08_java.repositories.SkillRepository;
+import com.example.lab_08_java.models.cook.CookLearnSkillRequest;
+import com.example.lab_08_java.models.response.SkillsResponse;
 import com.example.lab_08_java.services.SkillServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

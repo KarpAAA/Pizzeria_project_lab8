@@ -1,6 +1,6 @@
 package com.example.lab_08_java.controllers;
 
-import com.example.lab_08_java.models.OrderPizzaStepMadeRequest;
+import com.example.lab_08_java.models.other.OrderPizzaStepMadeRequest;
 import com.example.lab_08_java.services.RestaurantServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

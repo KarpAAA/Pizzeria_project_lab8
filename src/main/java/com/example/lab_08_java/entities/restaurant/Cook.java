@@ -1,15 +1,9 @@
 package com.example.lab_08_java.entities.restaurant;
 
 import com.example.lab_08_java.entities.base.BaseEntity;
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
 import com.example.lab_08_java.entities.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.bind.ConstructorBinding;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor()
 @AllArgsConstructor()
 @AttributeOverride(name = "id", column = @Column(name = "restaurant_id"))
-
 public class Cook extends BaseEntity {
 
     @OneToOne
@@ -36,7 +29,7 @@ public class Cook extends BaseEntity {
     )
     private List<Step> abilities;
 
-    @Transient
+
     private WORK_STATE workState = WORK_STATE.NOT_WORKING;
 
 
@@ -44,15 +37,5 @@ public class Cook extends BaseEntity {
         WORKING,
         NOT_WORKING
     }
-//
-//    public Cook(User user, String name, double salary) {
-//        this.user = user;
-//        this.name = name;
-//        this.salary = salary;
-//    }
-//
-//    public Cook(String name, double salary) {
-//        this.name = name;
-//        this.salary = salary;
-//    }
+
 }

@@ -1,7 +1,7 @@
 package com.example.lab_08_java.filters;
 
 
-import com.example.lab_08_java.services.security.JwtServices;
+import com.example.lab_08_java.services.JwtServices;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.stream.Collectors;
 
 @Component

@@ -1,13 +1,15 @@
 package com.example.lab_08_java.services;
 
 import com.example.lab_08_java.data.*;
-import com.example.lab_08_java.models.OrderPizzaStepMadeRequest;
+import com.example.lab_08_java.data.dtos.PizzaDTO;
+import com.example.lab_08_java.data.dtos.StepDTO;
+import com.example.lab_08_java.models.other.OrderPizzaStepMadeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Service
@@ -62,22 +64,31 @@ public class RestaurantServices {
                             .anyMatch(o -> o.getNumber() == order.getNumber()))
                     .findFirst()
                     .get();
-            Client client = restaurant
-                    .getClients()
-                    .stream()
-                    .filter(c -> c.getOrder()
-                            .getNumber() == order.getNumber())
-                    .findFirst()
-                    .get();
+            Client client = getCompletedOrdersClient(order.getNumber());
+
             restaurant.getCompletedOrders()
                     .add(new CompletedOrder(order,paydesk,client));
 
-            client.getOrder().setCompleted(true);
+            setOrderCompleted(client.getOrder());
             restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == order.getNumber());
             paydesk.getClients().remove(client);
         }
     }
 
+
+    private void setOrderCompleted(Order order){
+        order.setCompleted(true);
+        order.setFinishedOrderTime(LocalTime.now());
+    }
+    private Client getCompletedOrdersClient(int orderNumber){
+        return  restaurant
+                .getClients()
+                .stream()
+                .filter(c -> c.getOrder()
+                        .getNumber() == orderNumber)
+                .findFirst()
+                .get();
+    }
     private boolean checkIfOrderCompleted(int orderNumber){
         return restaurant
                 .getCurrentOrders()

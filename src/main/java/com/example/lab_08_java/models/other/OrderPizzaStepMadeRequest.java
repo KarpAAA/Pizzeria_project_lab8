@@ -1,4 +1,4 @@
-package com.example.lab_08_java.models;
+package com.example.lab_08_java.models.other;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

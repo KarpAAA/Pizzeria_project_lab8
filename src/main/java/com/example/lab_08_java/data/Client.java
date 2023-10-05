@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Client{
+public class Client {
     private Long id;
     private String name;
     private Order order;

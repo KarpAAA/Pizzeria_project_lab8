@@ -16,22 +16,13 @@ public class CookController {
     private final CookServices cookServices;
 
 
-    @GetMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getCooks(){
-        return ResponseEntity
-                .ok()
-                .body(cookServices.getAllCooks());
-    }
-
-
     @PostMapping("/release")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> releaseCook(
             @RequestBody ReleaseCookRequest releaseCookRequest){
         cookServices.releaseCook(releaseCookRequest);
         return ResponseEntity
-                .ok("Cook" + releaseCookRequest.getCookIndex() + "was released");
+                .ok("Cook" + releaseCookRequest.getCookId() + "was released");
     }
 
     @PostMapping("/update")
@@ -40,7 +31,7 @@ public class CookController {
             @RequestBody UpdateCookStateRequest updateCookStateRequest){
         cookServices.updateCookState(updateCookStateRequest);
         return ResponseEntity
-                .ok("Cook" + updateCookStateRequest.getCookIndex() + "was released");
+                .ok("Cook" + updateCookStateRequest.getCookId() + "was updated");
     }
 
     @GetMapping("/username")

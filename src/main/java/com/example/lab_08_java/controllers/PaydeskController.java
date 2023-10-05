@@ -2,8 +2,7 @@ package com.example.lab_08_java.controllers;
 
 
 import com.example.lab_08_java.data.Restaurant;
-import com.example.lab_08_java.models.QueueRequest;
-import com.example.lab_08_java.models.paydesks.DeletePaydeskRequest;
+import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import com.example.lab_08_java.services.PaydeskServices;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,6 @@ public class PaydeskController {
     private final Restaurant restaurant;
 
 
-    @PostMapping("/delete")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deletePaydesk(
-            @RequestBody DeletePaydeskRequest deleteRequest){
-        paydeskServices.deletePaydesk(deleteRequest, restaurant);
-        return ResponseEntity.ok("Paydesk "  + deleteRequest.getPaydeskIndex() + "was deleted successfully");
-    }
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")

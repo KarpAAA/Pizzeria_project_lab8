@@ -1,8 +1,8 @@
 package com.example.lab_08_java.services;
 
 import com.example.lab_08_java.entities.restaurant.Cook;
-import com.example.lab_08_java.entities.restaurant.pizza.Step;
-import com.example.lab_08_java.models.CookLearnSkillRequest;
+import com.example.lab_08_java.entities.restaurant.Step;
+import com.example.lab_08_java.models.cook.CookLearnSkillRequest;
 import com.example.lab_08_java.repositories.CookRepository;
 import com.example.lab_08_java.repositories.SkillRepository;
 import lombok.RequiredArgsConstructor;
