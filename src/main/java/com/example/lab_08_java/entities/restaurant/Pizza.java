@@ -33,7 +33,4 @@ public class Pizza extends BaseEntity {
     private List<Step> needSteps;
 
     private int price;
-    public Duration getCreationTime() {
-        return Duration.ofMillis(creationTime);
-    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class PizzaDTO {
-    private Duration creationTime;
+    private Long creationTime;
     private List<StepDTO> needSteps;
     private String name;
     private int price;
