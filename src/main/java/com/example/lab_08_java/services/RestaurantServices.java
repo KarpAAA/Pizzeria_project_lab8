@@ -66,6 +66,7 @@ public class RestaurantServices {
                     .get();
             Client client = getCompletedOrdersClient(order.getNumber());
 
+            restaurant.setIncome(restaurant.getIncome() + order.getPizzaList().stream().map(PizzaDTO::getPrice).reduce(0, Integer::sum));
             restaurant.getCompletedOrders()
                     .add(new CompletedOrder(order,paydesk,client));
 

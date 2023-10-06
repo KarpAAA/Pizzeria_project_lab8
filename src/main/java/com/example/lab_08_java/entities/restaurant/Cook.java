@@ -4,6 +4,7 @@ import com.example.lab_08_java.entities.base.BaseEntity;
 import com.example.lab_08_java.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class Cook extends BaseEntity {
 
     @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private User user;
 
     private String name;

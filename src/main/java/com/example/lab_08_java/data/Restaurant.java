@@ -19,4 +19,5 @@ public class Restaurant {
     private List<PizzaDTO> menu = new ArrayList<>();
     private List<Client> clients = new ArrayList<>();
     private List<Order> currentOrders = new ArrayList<>();
+    private int income = 0;
 }

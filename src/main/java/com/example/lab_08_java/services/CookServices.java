@@ -5,10 +5,12 @@ import com.example.lab_08_java.data.dtos.CookDTO;
 import com.example.lab_08_java.entities.restaurant.Cook;
 import com.example.lab_08_java.entities.restaurant.Step;
 import com.example.lab_08_java.entities.user.User;
+import com.example.lab_08_java.models.cook.CreateCookRequest;
 import com.example.lab_08_java.models.cook.ReleaseCookRequest;
 import com.example.lab_08_java.models.cook.UpdateCookStateRequest;
 import com.example.lab_08_java.repositories.CookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class CookServices {
     private final Restaurant restaurant;
     private final CookRepository cookRepository;
     private final UserServices userServices;
+    private final PasswordEncoder passwordEncoder;
 
 
     public void addCookToRestaurant(CookDTO cook) {
@@ -58,5 +61,14 @@ public class CookServices {
         return new CookDTO(cook.getId(),cook.getName(),cook.getSalary(),
                 cook.getAbilities().stream().map(Step::getName).toList(),
                 cook.getWorkState() == Cook.WORK_STATE.WORKING);
+    }
+
+    public void createCook(CreateCookRequest createCookRequest) {
+        cookRepository.save(new Cook(
+                new User(createCookRequest.getLogin(),
+                        passwordEncoder.encode(createCookRequest.getPassword()),
+                        createCookRequest.getAge(), User.Role.COOK),
+                createCookRequest.getName(),createCookRequest.getSalary(),List.of(), Cook.WORK_STATE.NOT_WORKING
+                ));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.lab_08_java.controllers;
 
 
+import com.example.lab_08_java.models.cook.CreateCookRequest;
 import com.example.lab_08_java.models.cook.ReleaseCookRequest;
 import com.example.lab_08_java.models.cook.UpdateCookStateRequest;
 import com.example.lab_08_java.services.CookServices;
@@ -15,6 +16,14 @@ import org.springframework.web.bind.annotation.*;
 public class CookController {
     private final CookServices cookServices;
 
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> createCook(
+            @RequestBody CreateCookRequest createCookRequest){
+        cookServices.createCook(createCookRequest);
+        return ResponseEntity
+                .ok("Cook" + createCookRequest + "was added");
+    }
 
     @PostMapping("/release")
     @PreAuthorize("hasRole('ADMIN')")
