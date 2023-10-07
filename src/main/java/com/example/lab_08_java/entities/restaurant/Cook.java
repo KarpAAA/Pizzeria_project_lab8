@@ -17,14 +17,13 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "restaurant_id"))
 public class Cook extends BaseEntity {
 
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     private String name;
     private double salary;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             joinColumns = @JoinColumn(name = "cook_id"),
             inverseJoinColumns = @JoinColumn(name = "step_id")

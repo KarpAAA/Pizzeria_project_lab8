@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor()
 @AllArgsConstructor()
 @AttributeOverride(name = "id", column = @Column(name = "step_id"))
+
 public class Step extends BaseEntity {
     private String name;
 }

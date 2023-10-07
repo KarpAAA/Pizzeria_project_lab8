@@ -46,7 +46,7 @@ public class ClientServices {
             PizzaDTO pizza = all.get(randomNumber);
             List<StepDTO> steps = new ArrayList<>();
             pizza.getNeedSteps().forEach(step -> steps.add(new StepDTO(step.getName(),step.isIfMade())));
-            resultList.add(new PizzaDTO(pizza.getCreationTime(),steps,pizza.getName(), pizza.getPrice()));
+            resultList.add(new PizzaDTO(pizza.getId(),pizza.getCreationTime(),steps,pizza.getName(), pizza.getPrice()));
         }
         return resultList;
     }
