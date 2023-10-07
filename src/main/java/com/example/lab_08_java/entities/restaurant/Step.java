@@ -19,7 +19,6 @@ import org.hibernate.annotations.CascadeType;
 @NoArgsConstructor()
 @AllArgsConstructor()
 @AttributeOverride(name = "id", column = @Column(name = "step_id"))
-
 public class Step extends BaseEntity {
     private String name;
 }

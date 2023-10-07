@@ -1,8 +1,8 @@
 package com.example.lab_08_java.controllers;
 
 
-import com.example.lab_08_java.data.SavePizzaRequest;
-import com.example.lab_08_java.models.DeletePizzaRequest;
+import com.example.lab_08_java.models.other.SavePizzaRequest;
+import com.example.lab_08_java.models.other.DeletePizzaRequest;
 import com.example.lab_08_java.services.PizzaServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +28,5 @@ public class PizzaController {
         pizzaServices.deletePizza(deletePizzaRequest);
         return ResponseEntity.ok("Pizza was created" + deletePizzaRequest);
     }
+
 }

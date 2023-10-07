@@ -1,7 +1,6 @@
 package com.example.lab_08_java.data;
 
 import com.example.lab_08_java.data.dtos.PizzaDTO;
-import jakarta.persistence.EntityListeners;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.time.LocalTime;
@@ -18,6 +17,7 @@ public class Order {
 
     private LocalTime createdOrderTime;
     private LocalTime finishedOrderTime;
+
     public Order(int number, List<PizzaDTO> pizzaList, int sum, boolean isCompleted) {
         this.number = number;
         this.pizzaList = pizzaList;

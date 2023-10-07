@@ -1,11 +1,11 @@
 package com.example.lab_08_java.services;
 
-import com.example.lab_08_java.data.SavePizzaRequest;
+import com.example.lab_08_java.models.other.SavePizzaRequest;
 import com.example.lab_08_java.data.dtos.PizzaDTO;
 import com.example.lab_08_java.data.dtos.StepDTO;
 import com.example.lab_08_java.entities.restaurant.Pizza;
 import com.example.lab_08_java.entities.restaurant.Step;
-import com.example.lab_08_java.models.DeletePizzaRequest;
+import com.example.lab_08_java.models.other.DeletePizzaRequest;
 import com.example.lab_08_java.repositories.PizzaRepository;
 import com.example.lab_08_java.repositories.SkillRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
