@@ -10,6 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Paydesk {
+    private int index;
     private String name;
     private List<Client> clients;
 

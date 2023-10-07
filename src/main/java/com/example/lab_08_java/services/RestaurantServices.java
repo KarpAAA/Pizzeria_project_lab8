@@ -27,7 +27,7 @@ public class RestaurantServices {
                     index ->
                             restaurant
                                     .getPaydesks()
-                                    .add(new Paydesk("CASA " + index, new ArrayList<>(), Paydesk.Availability.AVAILABLE))
+                                    .add(new Paydesk(index-1,"CASA " + index, new ArrayList<>(), Paydesk.Availability.AVAILABLE))
             );
 
         }
