@@ -29,7 +29,7 @@ public class ClientServices {
                         .reduce(0, Integer::sum),
                 false
         );
-        Client c = new Client(UUID.randomUUID().getLeastSignificantBits(), "Client " + orderNumber++, order);
+        Client c = new Client(UUID.randomUUID().getLeastSignificantBits(), "Client " + orderNumber++, order,-1);
         order.setClientName(c.getName());
         restaurant.getClients().add(c);
         return c;

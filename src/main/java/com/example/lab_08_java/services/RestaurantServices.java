@@ -38,7 +38,9 @@ public class RestaurantServices {
 
         List<Order> ordersList = new ArrayList<>();
         restaurant.getPaydesks()
-                .forEach(p -> p.getClients().stream().findFirst().ifPresent(c -> ordersList.add(c.getOrder())));
+                .forEach(p -> p.getClients().stream().findFirst().ifPresent(c ->{
+                    if(!c.getOrder().isCompleted())ordersList.add(c.getOrder());
+                }));
 
         restaurant.setCurrentOrders(ordersList);
 

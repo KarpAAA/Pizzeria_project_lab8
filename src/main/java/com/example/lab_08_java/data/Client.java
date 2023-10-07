@@ -9,4 +9,5 @@ public class Client {
     private Long id;
     private String name;
     private Order order;
+    private int chosenPaydesk;
 }

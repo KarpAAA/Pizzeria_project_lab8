@@ -23,6 +23,7 @@ public class PaydeskServices {
 
     public void standToQueue(QueueRequest queueRequest, Restaurant restaurant) {
         if(!restaurant.getClients().get(queueRequest.getClientIndex()).getOrder().isCompleted()){
+            restaurant.getClients().get(queueRequest.getClientIndex()).setChosenPaydesk(queueRequest.getPaydeskIndex());
             restaurant
                     .getPaydesks()
                     .get(queueRequest.getPaydeskIndex())
@@ -32,6 +33,7 @@ public class PaydeskServices {
     }
 
     public void leaveFromQueue(QueueRequest queueRequest, Restaurant restaurant) {
+        restaurant.getClients().get(queueRequest.getClientIndex()).setChosenPaydesk(-1);
         restaurant
                 .getPaydesks()
                 .get(queueRequest.getPaydeskIndex())
