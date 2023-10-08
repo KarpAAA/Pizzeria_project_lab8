@@ -59,7 +59,7 @@ public class CookServices {
 
     private CookDTO cookToCookDTO(Cook cook){
         return new CookDTO(cook.getId(),cook.getName(),cook.getSalary(),
-                cook.getAbilities().stream().map(Step::getName).toList(),
+                cook.getAbilities().stream().distinct().map(Step::getName).toList(),
                 cook.getWorkState() == Cook.WORK_STATE.WORKING);
     }
 
