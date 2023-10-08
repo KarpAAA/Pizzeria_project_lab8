@@ -23,7 +23,7 @@ public class Cook extends BaseEntity {
     private String name;
     private double salary;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             joinColumns = @JoinColumn(name = "cook_id"),
             inverseJoinColumns = @JoinColumn(name = "step_id")
