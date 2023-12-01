@@ -34,10 +34,11 @@ public class JwtFilter extends OncePerRequestFilter {
             token = header.substring(7);
             try {
                 username = jwtServices.getUsername(token);
-            }catch (ExpiredJwtException e){
-
+            }
+            catch (ExpiredJwtException e){
                 logger.debug("Token expired!");
-            }catch (SignatureException e){
+            }
+            catch (SignatureException e){
                 System.out.println(e);
                 logger.debug("SignatureException!");
             }

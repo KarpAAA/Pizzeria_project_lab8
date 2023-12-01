@@ -54,7 +54,7 @@ public class JwtServices {
         return Optional.of(new JwtToken(token));
     }
     private Claims getClaims(String token){
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(secret.getBytes())
                 .build()
                 .parseClaimsJws(token)

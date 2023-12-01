@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Order {
+public class Order implements Comparable<Order>{
     private int number;
     private List<PizzaDTO> pizzaList;
     private int sum;
@@ -23,5 +23,10 @@ public class Order {
         this.pizzaList = pizzaList;
         this.sum = sum;
         this.isCompleted = isCompleted;
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return this.number - o.number;
     }
 }

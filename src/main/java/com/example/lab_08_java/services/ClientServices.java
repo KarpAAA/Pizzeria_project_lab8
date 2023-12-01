@@ -15,6 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientServices {
     private final PizzaServices pizzaServices;
+    private final PaydeskServices paydeskServices;
     private final Restaurant restaurant;
     private static int orderNumber = 1;
 

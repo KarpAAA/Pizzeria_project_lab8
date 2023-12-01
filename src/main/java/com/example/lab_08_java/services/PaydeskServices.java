@@ -1,13 +1,18 @@
 package com.example.lab_08_java.services;
 
+import com.example.lab_08_java.data.Client;
 import com.example.lab_08_java.data.Paydesk;
 import com.example.lab_08_java.data.Restaurant;
+import com.example.lab_08_java.data.dtos.PizzaDTO;
 import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.models.paydesks.DeletePaydeskRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PaydeskServices {
@@ -39,5 +44,36 @@ public class PaydeskServices {
                 .get(queueRequest.getPaydeskIndex())
                 .getClients()
                 .remove(restaurant.getClients().get(queueRequest.getClientIndex()));
+    }
+
+    public Paydesk findBestPaydesk(Restaurant restaurant){
+        Map<Paydesk, Long> creationTimes = restaurant
+                .getPaydesks()
+                .stream()
+                .collect(Collectors.toMap(
+                        paydesk -> paydesk,
+                        paydesk -> paydesk.getClients()
+                                .stream()
+                                .flatMap(cl -> cl.getOrder()
+                                        .getPizzaList()
+                                        .stream()
+                                        .map(PizzaDTO::getCreationTime)
+                                )
+                                .reduce(0L, Long::sum)
+                ));
+
+        Paydesk best = null;
+        long min = Long.MAX_VALUE;
+
+        for (Paydesk p : creationTimes.keySet()) {
+            long creationTime = creationTimes.get(p);
+
+            if (creationTime < min) {
+                min = creationTime;
+                best = p;
+            }
+        }
+
+        return best;
     }
 }
