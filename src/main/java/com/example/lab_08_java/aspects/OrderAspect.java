@@ -19,4 +19,9 @@ public class OrderAspect {
         client.getOrder().setCreatedOrderTime(LocalTime.now());
     }
 
+    @AfterReturning(pointcut = "execution(* com.example.lab_08_java.services.ClientServices.createNewClient(..))"
+            , returning = "client")
+    public void afterClientCreation1(Client client) {
+        client.getOrder().setCreatedOrderTime(LocalTime.now());
+    }
 }
