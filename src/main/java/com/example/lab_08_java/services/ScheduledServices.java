@@ -1,40 +1,50 @@
 package com.example.lab_08_java.services;
 
 
-import com.example.lab_08_java.data.Client;
-import com.example.lab_08_java.data.Paydesk;
 import com.example.lab_08_java.data.Restaurant;
-import com.example.lab_08_java.data.dtos.PizzaDTO;
+import com.example.lab_08_java.data.generation.DefaultGenerationStrategy;
 import com.example.lab_08_java.data.generation.GenerationStrategy;
-import com.example.lab_08_java.models.other.QueueRequest;
-import com.example.lab_08_java.sockets.RestaurantSocket;
-import lombok.RequiredArgsConstructor;
+import com.example.lab_08_java.data.generation.OtherGenerationStrategy;
 import lombok.Setter;
-import org.hibernate.query.sqm.TemporalUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
+import org.springframework.lang.Nullable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Service;
-
-import java.time.*;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAccessor;
 
 
 @Service
-@RequiredArgsConstructor
 @Setter
 public class ScheduledServices {
     private final RestaurantServices restaurantServices;
     private final Restaurant restaurant;
     private final SimpMessagingTemplate messagingTemplate;
+    private final DefaultGenerationStrategy defaultGenerationStrategy;
+    private final OtherGenerationStrategy otherGenerationStrategy;
+    private GenerationStrategy generationStrategy;
 
-    @Qualifier("defaultGenerationStrategy")
-    private final GenerationStrategy generationStrategy;
+    public ScheduledServices(RestaurantServices restaurantServices,
+                             Restaurant restaurant,
+                             SimpMessagingTemplate messagingTemplate,
+                             DefaultGenerationStrategy defaultGenerationStrategy,
+                             OtherGenerationStrategy otherGenerationStrategy,
+                             @Qualifier(value = "defaultGenerationStrategy") GenerationStrategy generationStrategy) {
+        this.restaurantServices = restaurantServices;
+        this.restaurant = restaurant;
+        this.messagingTemplate = messagingTemplate;
+        this.generationStrategy = generationStrategy;
+        this.defaultGenerationStrategy = defaultGenerationStrategy;
+        this.otherGenerationStrategy = otherGenerationStrategy;
+    }
+
+    public void changeStrategyToDefault(){
+        generationStrategy = defaultGenerationStrategy;
+    }
+
+    public void changeStrategyToOther(){
+        generationStrategy = otherGenerationStrategy;
+    }
 
     @Scheduled(fixedRateString = "${restaurant.generate.client.delay}")
     public void generateClient() {

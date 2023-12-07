@@ -20,6 +20,7 @@ import java.time.temporal.ChronoUnit;
 
 
 
+@Service
 @RequiredArgsConstructor
 public class DefaultGenerationStrategy implements GenerationStrategy {
     private final PaydeskServices paydeskServices;
