@@ -50,6 +50,7 @@ public class PaydeskServices {
         Map<Paydesk, Long> creationTimes = restaurant
                 .getPaydesks()
                 .stream()
+                .filter(p -> p.getAvailability() == Paydesk.Availability.AVAILABLE)
                 .collect(Collectors.toMap(
                         paydesk -> paydesk,
                         paydesk -> paydesk.getClients()

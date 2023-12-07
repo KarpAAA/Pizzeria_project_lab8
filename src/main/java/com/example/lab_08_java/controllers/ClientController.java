@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
     private final ClientServices clientServices;
 
-    @PostMapping("/new")
-    public ResponseEntity<?> createNewClient(){
-        Client client = clientServices.createNewClient();
-        return ResponseEntity.ok("Client was created!\n" + client);
-    }
+//    @PostMapping("/new")
+//    public ResponseEntity<?> createNewClient(){
+//        Client client = clientServices.createNewClient();
+//        return ResponseEntity.ok("Client was created!\n" + client);
+//    }
 }

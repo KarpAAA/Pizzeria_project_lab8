@@ -20,8 +20,7 @@ public class ClientServices {
     private static int orderNumber = 1;
 
 
-    public Client createNewClient() {
-        List<PizzaDTO> orderPizzas = randomOrder();
+    public Client createNewClient(List<PizzaDTO> orderPizzas) {
         Order order = new Order(
                 orderNumber, orderPizzas,
                 orderPizzas
@@ -30,13 +29,13 @@ public class ClientServices {
                         .reduce(0, Integer::sum),
                 false
         );
-        Client c = new Client(UUID.randomUUID().getLeastSignificantBits(), "Client " + orderNumber++, order,-1);
+        Client c = new Client(UUID.randomUUID().getLeastSignificantBits(), "Client " + orderNumber++, order, -1);
         order.setClientName(c.getName());
         restaurant.getClients().add(c);
         return c;
     }
 
-    private List<PizzaDTO> randomOrder() {
+    public List<PizzaDTO> randomOrder() {
         List<PizzaDTO> all = pizzaServices.getPizzaList();
         Random random = new Random();
         int pizzaAmount = random.nextInt(1, 5);
@@ -46,9 +45,35 @@ public class ClientServices {
             int randomNumber = random.nextInt(all.size());
             PizzaDTO pizza = all.get(randomNumber);
             List<StepDTO> steps = new ArrayList<>();
-            pizza.getNeedSteps().forEach(step -> steps.add(new StepDTO(step.getName(),step.isIfMade())));
-            resultList.add(new PizzaDTO(pizza.getId(),pizza.getCreationTime(),steps,pizza.getName(), pizza.getPrice()));
+            pizza.getNeedSteps().forEach(step -> steps.add(new StepDTO(step.getName(), step.isIfMade())));
+            resultList.add(new PizzaDTO(pizza.getId(), pizza.getCreationTime(), steps, pizza.getName(), pizza.getPrice()));
         }
         return resultList;
+    }
+
+    public List<PizzaDTO> randomOrderWithGift() {
+        List<PizzaDTO> all = pizzaServices.getPizzaList();
+        Random random = new Random();
+        int pizzaAmount = 4;
+
+        List<PizzaDTO> resultList = new ArrayList<>();
+        for (int i = 0; i < pizzaAmount; i++) {
+            int randomNumber = random.nextInt(all.size());
+            PizzaDTO pizza = all.get(randomNumber);
+            List<StepDTO> steps = new ArrayList<>();
+            pizza.getNeedSteps().forEach(step -> steps.add(new StepDTO(step.getName(), step.isIfMade())));
+            resultList.add(new PizzaDTO(pizza.getId(), pizza.getCreationTime(), steps, pizza.getName(), pizza.getPrice()));
+        }
+        resultList.add(randomedGiftPizza(all));
+        return resultList;
+    }
+
+    private PizzaDTO randomedGiftPizza(List<PizzaDTO> all) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(all.size());
+        PizzaDTO pizza = all.get(randomNumber);
+        List<StepDTO> steps = new ArrayList<>();
+        pizza.getNeedSteps().forEach(step -> steps.add(new StepDTO(step.getName(), step.isIfMade())));
+        return new PizzaDTO(pizza.getId(), pizza.getCreationTime(), steps, pizza.getName(), 0);
     }
 }

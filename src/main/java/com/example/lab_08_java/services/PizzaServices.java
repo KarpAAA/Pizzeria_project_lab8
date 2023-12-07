@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class PizzaServices {
-
     private final PizzaRepository pizzaRepository;
     private final SkillRepository skillRepository;
 

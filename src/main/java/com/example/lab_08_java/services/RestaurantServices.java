@@ -25,7 +25,7 @@ public class RestaurantServices {
     private final PizzaServices pizzaServices;
     private final Restaurant restaurant;
 
-    public void reloadRestaurantState() {
+    public synchronized void reloadRestaurantState() {
         List<PizzaDTO> pizzas = pizzaServices.getPizzaList();
 
         if (restaurant.getPaydesks().size() == 0) {
@@ -38,7 +38,6 @@ public class RestaurantServices {
 
         }
 
-
         restaurant.setCooks(cookServices.getAllCooks());
         restaurant.setMenu(pizzas);
 
@@ -47,7 +46,6 @@ public class RestaurantServices {
                 .forEach(p -> p.getClients().stream().findFirst().ifPresent(c -> {
                     if (!c.getOrder().isCompleted()) ordersList.add(c.getOrder());
                 }));
-
         restaurant.setCurrentOrders(ordersList);
 
     }
@@ -75,8 +73,8 @@ public class RestaurantServices {
                     .get();
             Client client = getCompletedOrdersClient(order.getNumber());
 
-            restaurant.setIncome(restaurant.getIncome() + order.getPizzaList().stream().map(PizzaDTO::getPrice).reduce(0, Integer::sum));
-            restaurant.getCompletedOrders()
+            restaurant.getStat().setIncome(restaurant.getStat().getIncome() + order.getPizzaList().stream().map(PizzaDTO::getPrice).reduce(0, Integer::sum));
+            restaurant.getStat().getCompletedOrders()
                     .add(new CompletedOrder(order, paydesk, client));
 
             setOrderCompleted(client.getOrder());
@@ -84,7 +82,6 @@ public class RestaurantServices {
             paydesk.getClients().remove(client);
         }
     }
-
 
     public synchronized OrderPizzaStepMadeRequest findStepToComplete(CookDTO cook) {
         if (restaurant.getCurrentOrders().size() == 0) return null;
@@ -117,7 +114,7 @@ public class RestaurantServices {
                 order.getPizzaList().indexOf(pizzaDTO),
                 pizzaDTO.getNeedSteps().indexOf(doingStep)
         );
-        System.out.println("Cook " + cook.getId() + " " + o);
+//        System.out.println("Cook " + cook.getId() + " " + o);
         return o;
     }
 
