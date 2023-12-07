@@ -10,5 +10,4 @@ import lombok.Data;
 public class UpdateCookStateRequest {
     private int cookId;
     private boolean workingState;
-
 }

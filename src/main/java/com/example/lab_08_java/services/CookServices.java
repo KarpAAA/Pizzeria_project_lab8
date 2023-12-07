@@ -25,8 +25,13 @@ public class CookServices {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void addCookToRestaurant(CookDTO cook) {
-        restaurant.getCooks().add(cook);
+    public void createCook(CreateCookRequest createCookRequest) {
+        cookRepository.save(new Cook(
+                new User(createCookRequest.getLogin(),
+                        passwordEncoder.encode(createCookRequest.getPassword()),
+                        createCookRequest.getAge(), User.Role.COOK),
+                createCookRequest.getName(),createCookRequest.getSalary(),List.of(), Cook.WORK_STATE.NOT_WORKING
+        ));
     }
 
     public boolean releaseCook(ReleaseCookRequest releaseCookRequest) {
@@ -41,15 +46,11 @@ public class CookServices {
                 .map( this::cookToCookDTO)
                 .collect(Collectors.toList());
     }
-    public CookDTO getCook(int index) {
-        return restaurant.getCooks().get(index);
-    }
 
-    public boolean updateCookState(UpdateCookStateRequest updateCookStateRequest) {
+    public void updateCookState(UpdateCookStateRequest updateCookStateRequest) {
         Cook cook = cookRepository.findById((long) updateCookStateRequest.getCookId()).get();
         cook.setWorkState(updateCookStateRequest.isWorkingState() ? Cook.WORK_STATE.WORKING : Cook.WORK_STATE.NOT_WORKING);
         cookRepository.save(cook);
-        return true;
     }
 
     public CookDTO getCookByUsername(String username) {
@@ -63,12 +64,5 @@ public class CookServices {
                 cook.getWorkState() == Cook.WORK_STATE.WORKING);
     }
 
-    public void createCook(CreateCookRequest createCookRequest) {
-        cookRepository.save(new Cook(
-                new User(createCookRequest.getLogin(),
-                        passwordEncoder.encode(createCookRequest.getPassword()),
-                        createCookRequest.getAge(), User.Role.COOK),
-                createCookRequest.getName(),createCookRequest.getSalary(),List.of(), Cook.WORK_STATE.NOT_WORKING
-                ));
-    }
+
 }

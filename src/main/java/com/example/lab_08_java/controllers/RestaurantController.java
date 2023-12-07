@@ -18,11 +18,11 @@ public class RestaurantController {
     private final RestaurantServices restaurantServices;
     private final Restaurant restaurant;
 
-    @GetMapping()
-    @PreAuthorize("permitAll()")
-    public ResponseEntity<Restaurant> getRestaurant(){
-        restaurantServices.reloadRestaurantState();
-        return ResponseEntity.ok(restaurant);
-    }
+//    @GetMapping()
+//    @PreAuthorize("permitAll()")
+//    public ResponseEntity<Restaurant> getRestaurant(){
+//        restaurantServices.reloadRestaurantState();
+//        return ResponseEntity.ok(restaurant);
+//    }
 
 }

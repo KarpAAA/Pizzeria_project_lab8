@@ -59,11 +59,6 @@ public class JwtServices {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-//         Jwts
-//                .parser()
-//                .setSigningKey(secret.getBytes())
-//                .parseClaimsJws(token)
-//                .getBody();
     }
     public Collection<User.Role> getRoles(String token){
         List<String> roles = (List<String>) getClaims(token).get(ROLE_CLAIMS_FIELD);

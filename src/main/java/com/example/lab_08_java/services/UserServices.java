@@ -20,8 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServices implements UserDetailsService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

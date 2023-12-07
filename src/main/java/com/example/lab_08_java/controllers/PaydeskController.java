@@ -18,7 +18,6 @@ public class PaydeskController {
     private final Restaurant restaurant;
 
 
-
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> makePaydeskAvailable(
@@ -29,18 +28,18 @@ public class PaydeskController {
                         + "was updated to " + updatePaydeskRequest.getAvailability().name() + " successfully");
     }
 
-    @PostMapping("/queue/stand")
-    public ResponseEntity<?> standToQueueRequest(
-            @RequestBody QueueRequest standToQueueRequest){
-        paydeskServices.standToQueue(standToQueueRequest, restaurant);
-        return ResponseEntity
-                .ok("Paydesk queue was updated"  + standToQueueRequest);
-    }
-    @PostMapping("/queue/leave")
-    public ResponseEntity<?> leaveFromQueueRequest(
-            @RequestBody QueueRequest standToQueueRequest){
-        paydeskServices.leaveFromQueue(standToQueueRequest, restaurant);
-        return ResponseEntity
-                .ok("Paydesk queue was updated"  + standToQueueRequest);
-    }
+//    @PostMapping("/queue/stand")
+//    public ResponseEntity<?> standToQueueRequest(
+//            @RequestBody QueueRequest standToQueueRequest){
+//        paydeskServices.standToQueue(standToQueueRequest, restaurant);
+//        return ResponseEntity
+//                .ok("Paydesk queue was updated"  + standToQueueRequest);
+//    }
+//    @PostMapping("/queue/leave")
+//    public ResponseEntity<?> leaveFromQueueRequest(
+//            @RequestBody QueueRequest standToQueueRequest){
+//        paydeskServices.leaveFromQueue(standToQueueRequest, restaurant);
+//        return ResponseEntity
+//                .ok("Paydesk queue was updated"  + standToQueueRequest);
+//    }
 }

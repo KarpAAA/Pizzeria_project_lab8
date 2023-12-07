@@ -49,7 +49,6 @@ public class RestaurantServices {
         restaurant.setCurrentOrders(ordersList);
 
     }
-
     public void orderPizzaMakeStep(OrderPizzaStepMadeRequest orderPizzaStepMadeRequest) {
         if (orderPizzaStepMadeRequest == null) return;
         Order order = restaurant.getClients()
@@ -82,7 +81,6 @@ public class RestaurantServices {
             paydesk.getClients().remove(client);
         }
     }
-
     public synchronized OrderPizzaStepMadeRequest findStepToComplete(CookDTO cook) {
         if (restaurant.getCurrentOrders().size() == 0) return null;
         PizzaDTO pizzaDTO;
@@ -122,7 +120,6 @@ public class RestaurantServices {
         order.setCompleted(true);
         order.setFinishedOrderTime(LocalTime.now());
     }
-
     private Client getCompletedOrdersClient(int orderNumber) {
         return restaurant
                 .getClients()
@@ -132,7 +129,6 @@ public class RestaurantServices {
                 .findFirst()
                 .get();
     }
-
     private boolean checkIfOrderCompleted(int orderNumber) {
         return restaurant
                 .getCurrentOrders()

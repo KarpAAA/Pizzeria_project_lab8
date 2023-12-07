@@ -41,7 +41,7 @@ public class ScheduledServices {
         generationStrategy.generateClient();
     }
 
-    @Scheduled(fixedRateString = "5000")
+    @Scheduled(fixedRateString = "${restaurant.cook.work.delay}")
     public void cooksMakeSteps() {
 
         restaurant.getCooks().forEach(c -> {
@@ -52,7 +52,7 @@ public class ScheduledServices {
                 }
         );
     }
-    @Scheduled(fixedRateString = "1000")
+    @Scheduled(fixedRateString = "${sending.restaurantInfo.delay}")
     public void send() {
         restaurantServices.reloadRestaurantState();
         messagingTemplate.convertAndSend("/topic/restaurant", restaurant);

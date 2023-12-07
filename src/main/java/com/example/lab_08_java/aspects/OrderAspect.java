@@ -19,12 +19,6 @@ public class OrderAspect {
     private final RestaurantServices restaurantServices;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @AfterReturning(pointcut = "execution(* com.example.lab_08_java.services.ClientServices.createNewClient(..))"
-            , returning = "client")
-    public void afterClientCreation(Client client) {
-        client.getOrder().setCreatedOrderTime(LocalTime.now());
-    }
-
 
 //    @After("execution(* com.example.lab_08_java.data.Restaurant.get*())")
 //    public void afterGetterExecution() {

@@ -1,16 +1,11 @@
 package com.example.lab_08_java.services;
 
-import com.example.lab_08_java.data.Client;
 import com.example.lab_08_java.data.Paydesk;
 import com.example.lab_08_java.data.Restaurant;
 import com.example.lab_08_java.data.dtos.PizzaDTO;
 import com.example.lab_08_java.models.other.QueueRequest;
-import com.example.lab_08_java.models.paydesks.DeletePaydeskRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
