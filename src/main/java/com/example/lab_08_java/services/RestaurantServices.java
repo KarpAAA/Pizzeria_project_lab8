@@ -9,6 +9,7 @@ import com.example.lab_08_java.entities.restaurant.Step;
 import com.example.lab_08_java.models.other.OrderPizzaStepMadeRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.PropertySource;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 public class RestaurantServices {
     private final CookServices cookServices;
     private final PizzaServices pizzaServices;
+    private final KafkaTemplate<String, String> kafkaTemplateEvents;
     private final Restaurant restaurant;
 
     public synchronized void reloadRestaurantState() {
@@ -79,6 +81,8 @@ public class RestaurantServices {
             setOrderCompleted(client.getOrder());
             restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == order.getNumber());
             paydesk.getClients().remove(client);
+
+            kafkaTemplateEvents.send("events_topic", "Order [" + order.getNumber() + "] was completed!");
         }
     }
     public synchronized OrderPizzaStepMadeRequest findStepToComplete(CookDTO cook) {
@@ -112,7 +116,6 @@ public class RestaurantServices {
                 order.getPizzaList().indexOf(pizzaDTO),
                 pizzaDTO.getNeedSteps().indexOf(doingStep)
         );
-//        System.out.println("Cook " + cook.getId() + " " + o);
         return o;
     }
 

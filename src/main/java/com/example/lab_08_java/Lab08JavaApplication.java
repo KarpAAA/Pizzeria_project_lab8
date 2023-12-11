@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableAspectJAutoProxy
 @RequiredArgsConstructor
 @EnableScheduling
+@EnableKafka
 public class Lab08JavaApplication {
     private final RestaurantServices restaurantServices;
 

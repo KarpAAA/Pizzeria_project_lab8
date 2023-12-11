@@ -26,14 +26,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:8080")
+                .setAllowedOrigins("http://localhost:8080","http://localhost:8082")
                 .withSockJS();
     }
 
-    @Override
-    public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-        registration.setMessageSizeLimit(8192)
-                .setSendBufferSizeLimit(8192)
-                .setSendTimeLimit(10000);
-    }
+
 }

@@ -27,7 +27,8 @@ public class Pizza extends BaseEntity {
     @Column(name = "pizza_name")
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.EAGER)
     @JoinTable(
             joinColumns = @JoinColumn(name = "pizza_id"),
             inverseJoinColumns = @JoinColumn(name = "step_id")

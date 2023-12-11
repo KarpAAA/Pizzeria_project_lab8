@@ -42,7 +42,7 @@ public class PizzaServices {
         }
         pizzaRepository.save(
                 new Pizza(savePizzaRequest.getId(),
-                        savePizzaRequest.getCreationTime() * 60000L,
+                        savePizzaRequest.getCreationTime() * 1000L,
                         savePizzaRequest.getName(),
                         steps,
                         savePizzaRequest.getPrice()));

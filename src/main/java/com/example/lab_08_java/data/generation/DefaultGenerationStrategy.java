@@ -9,6 +9,7 @@ import com.example.lab_08_java.services.ClientServices;
 import com.example.lab_08_java.services.PaydeskServices;
 import com.example.lab_08_java.sockets.RestaurantSocket;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -19,32 +20,27 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
 
-
 @Service
 @RequiredArgsConstructor
 public class DefaultGenerationStrategy implements GenerationStrategy {
     private final PaydeskServices paydeskServices;
     private final ClientServices clientServices;
+    private final KafkaTemplate<String, String> kafkaTemplateEvents;
     private final TaskScheduler taskScheduler;
     private final Restaurant restaurant;
 
 
     @Override
-    public void generateClient() {
+    public Client generateClient() {
         Client c = clientServices.createNewClient(clientServices.randomOrder());
-        Long plusMills  = c.getOrder()
+        Long plusMills = c.getOrder()
                 .getPizzaList().stream().map(PizzaDTO::getCreationTime)
-                .reduce(0L,Long::sum);
+                .reduce(0L, Long::sum);
 
         taskScheduler.schedule(new Runnable() {
             @Override
             public void run() {
-                if (c.getOrder().isCompleted()) return;
-                restaurant.getClients().remove(c);
-                restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == c.getOrder().getNumber());
-                Paydesk paydesk = restaurant.getPaydesks().stream().filter(p -> p.getClients().contains(c)).findFirst().get();
-                paydesk.getClients().remove(c);
-                restaurant.getStat().getFailedOrders().add(c.getOrder());
+                cancelOrderMethod(c);
             }
         }, Instant.now().plus(plusMills, ChronoUnit.MILLIS));
         Paydesk paydesk = paydeskServices.findBestPaydesk(restaurant);
@@ -53,7 +49,18 @@ public class DefaultGenerationStrategy implements GenerationStrategy {
                 restaurant.getClients().indexOf(c)
         );
         paydeskServices.standToQueue(queueRequest, restaurant);
+        return c;
     }
 
+    public void cancelOrderMethod(Client c) {
+        if (c.getOrder().isCompleted()) return;
+        restaurant.getClients().remove(c);
+        restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == c.getOrder().getNumber());
+        Paydesk paydesk = restaurant.getPaydesks().stream().filter(p -> p.getClients().contains(c)).findFirst().get();
+        paydesk.getClients().remove(c);
+        restaurant.getStat().getFailedOrders().add(c.getOrder());
+        kafkaTemplateEvents.send("events_failed_topic", "Order [" + c.getOrder().getNumber() + "] was failed!");
+
+    }
 
 }

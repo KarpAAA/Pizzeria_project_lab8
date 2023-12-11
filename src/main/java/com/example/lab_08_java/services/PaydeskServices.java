@@ -6,6 +6,7 @@ import com.example.lab_08_java.data.dtos.PizzaDTO;
 import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,15 +15,17 @@ public class PaydeskServices {
 
 
     public boolean updatePaydesk(UpdatePaydeskRequest updatePaydeskRequest, Restaurant restaurant) {
-        restaurant
+        Paydesk p = restaurant
                 .getPaydesks()
-                .get(updatePaydeskRequest.getPaydeskIndex())
-                .setAvailability(updatePaydeskRequest.getAvailability());
+                .get(updatePaydeskRequest.getPaydeskIndex());
+//        if (p.getClients().isEmpty())
+//        else return false;
+        p.setAvailability(updatePaydeskRequest.getAvailability());
         return true;
     }
 
     public void standToQueue(QueueRequest queueRequest, Restaurant restaurant) {
-        if(!restaurant.getClients().get(queueRequest.getClientIndex()).getOrder().isCompleted()){
+        if (!restaurant.getClients().get(queueRequest.getClientIndex()).getOrder().isCompleted()) {
             restaurant.getClients().get(queueRequest.getClientIndex()).setChosenPaydesk(queueRequest.getPaydeskIndex());
             restaurant
                     .getPaydesks()
@@ -41,7 +44,7 @@ public class PaydeskServices {
                 .remove(restaurant.getClients().get(queueRequest.getClientIndex()));
     }
 
-    public Paydesk findBestPaydesk(Restaurant restaurant){
+    public Paydesk findBestPaydesk(Restaurant restaurant) {
         Map<Paydesk, Long> creationTimes = restaurant
                 .getPaydesks()
                 .stream()

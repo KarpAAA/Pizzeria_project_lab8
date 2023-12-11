@@ -8,6 +8,7 @@ import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.services.ClientServices;
 import com.example.lab_08_java.services.PaydeskServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +25,15 @@ public class OtherGenerationStrategy implements GenerationStrategy {
     private final ClientServices clientServices;
     private final TaskScheduler taskScheduler;
     private final Restaurant restaurant;
+    private final KafkaTemplate<String, String> kafkaTemplateEvents;
 
 
     @Override
-    public void generateClient() {
+    public Client generateClient() {
         Client c = clientServices.createNewClient(clientServices.randomOrderWithGift());
-        Long plusMills  = c.getOrder()
+        Long plusMills = c.getOrder()
                 .getPizzaList().stream().map(PizzaDTO::getCreationTime)
-                .reduce(0L,Long::sum);
+                .reduce(0L, Long::sum);
 
         LocalDateTime localDateTime =
                 LocalDateTime.now()
@@ -42,13 +44,7 @@ public class OtherGenerationStrategy implements GenerationStrategy {
         taskScheduler.schedule(new Runnable() {
             @Override
             public void run() {
-                if (c.getOrder().isCompleted()) return;
-                restaurant.getClients().remove(c);
-                restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == c.getOrder().getNumber());
-                Paydesk paydesk = restaurant.getPaydesks().stream().filter(p -> p.getClients().contains(c)).findFirst().get();
-                paydesk.getClients().remove(c);
-                restaurant.getStat().getFailedOrders().add(c.getOrder());
-                System.out.println("Order[" + c.getOrder().getNumber() + "] was failed to completed!!!");
+                cancelOrderMethod(c);
             }
         }, localDateTime.toInstant(ZoneOffset.ofHours(0)));
 
@@ -58,7 +54,17 @@ public class OtherGenerationStrategy implements GenerationStrategy {
                 restaurant.getClients().indexOf(c)
         );
         paydeskServices.standToQueue(queueRequest, restaurant);
+        return c;
     }
 
+    public void cancelOrderMethod(Client c) {
+
+        restaurant.getClients().remove(c);
+        restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == c.getOrder().getNumber());
+        Paydesk paydesk = restaurant.getPaydesks().stream().filter(p -> p.getClients().contains(c)).findFirst().get();
+        paydesk.getClients().remove(c);
+        restaurant.getStat().getFailedOrders().add(c.getOrder());
+        kafkaTemplateEvents.send("events_failed_topic", "Order [" + c.getOrder().getNumber() + "] was failed!");
+    }
 
 }

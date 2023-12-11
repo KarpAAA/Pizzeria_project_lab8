@@ -1,8 +1,10 @@
 package com.example.lab_08_java.data;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
