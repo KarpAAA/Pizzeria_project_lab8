@@ -12,6 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -35,19 +36,12 @@ public class OtherGenerationStrategy implements GenerationStrategy {
                 .getPizzaList().stream().map(PizzaDTO::getCreationTime)
                 .reduce(0L, Long::sum);
 
-        LocalDateTime localDateTime =
-                LocalDateTime.now()
-                        .atZone(ZoneId.of("Europe/Kiev"))
-                        .plus(plusMills, ChronoUnit.MILLIS)
-                        .toLocalDateTime();
-
         taskScheduler.schedule(new Runnable() {
             @Override
             public void run() {
                 cancelOrderMethod(c);
             }
-        }, localDateTime.toInstant(ZoneOffset.ofHours(0)));
-
+        }, Instant.now().plus(plusMills, ChronoUnit.MILLIS));
         Paydesk paydesk = paydeskServices.findBestPaydesk(restaurant);
         QueueRequest queueRequest = new QueueRequest(
                 restaurant.getPaydesks().indexOf(paydesk),
@@ -58,13 +52,14 @@ public class OtherGenerationStrategy implements GenerationStrategy {
     }
 
     public void cancelOrderMethod(Client c) {
-
+        if (c.getOrder().isCompleted()) return;
         restaurant.getClients().remove(c);
         restaurant.getCurrentOrders().removeIf(o -> o.getNumber() == c.getOrder().getNumber());
         Paydesk paydesk = restaurant.getPaydesks().stream().filter(p -> p.getClients().contains(c)).findFirst().get();
         paydesk.getClients().remove(c);
         restaurant.getStat().getFailedOrders().add(c.getOrder());
         kafkaTemplateEvents.send("events_failed_topic", "Order [" + c.getOrder().getNumber() + "] was failed!");
+
     }
 
 }

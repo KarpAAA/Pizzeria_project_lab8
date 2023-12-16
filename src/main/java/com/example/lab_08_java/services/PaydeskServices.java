@@ -7,23 +7,36 @@ import com.example.lab_08_java.models.other.QueueRequest;
 import com.example.lab_08_java.models.paydesks.UpdatePaydeskRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class PaydeskServices {
 
-
+    /**
+     * Updates the availability of a paydesk in a restaurant.
+     *
+     * @param updatePaydeskRequest the request containing the paydesk index and the new availability
+     * @param restaurant           the restaurant object containing the paydesks list
+     * @return true if the paydesk was updated, false otherwise
+     */
     public boolean updatePaydesk(UpdatePaydeskRequest updatePaydeskRequest, Restaurant restaurant) {
         Paydesk p = restaurant
                 .getPaydesks()
                 .get(updatePaydeskRequest.getPaydeskIndex());
-//        if (p.getClients().isEmpty())
-//        else return false;
         p.setAvailability(updatePaydeskRequest.getAvailability());
         return true;
     }
 
+    /**
+     * This function is used to set a client's chosen paydesk index to the given index in the queue request.
+     * If the client's order is not completed, the chosen paydesk index will be set.
+     * If the client's order is completed, the chosen paydesk index will not be changed.
+     *
+     * @param queueRequest the request containing the client index and the paydesk index
+     * @param restaurant the restaurant object containing the clients and paydesks list
+     */
     public void standToQueue(QueueRequest queueRequest, Restaurant restaurant) {
         if (!restaurant.getClients().get(queueRequest.getClientIndex()).getOrder().isCompleted()) {
             restaurant.getClients().get(queueRequest.getClientIndex()).setChosenPaydesk(queueRequest.getPaydeskIndex());

@@ -1,0 +1,7 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: darkgray;
+    background-image: url(@/assets/backgrounds/f13.png);
+    font-family: 'Press Start 2P', cursive;
+}

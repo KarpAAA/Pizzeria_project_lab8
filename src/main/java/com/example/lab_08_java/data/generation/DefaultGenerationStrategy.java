@@ -29,28 +29,37 @@ public class DefaultGenerationStrategy implements GenerationStrategy {
     private final TaskScheduler taskScheduler;
     private final Restaurant restaurant;
 
-
+    /**
+     * Creates a new client with a random order. The method calculates the time interval between the order creation and the
+     * next available paydesk by summing up the creation times of all pizzas in the order. Then, it schedules a task to
+     * cancel the order after the calculated time interval.
+     * @return the new client
+     */
     @Override
-    public Client generateClient() {
-        Client c = clientServices.createNewClient(clientServices.randomOrder());
-        Long plusMills = c.getOrder()
-                .getPizzaList().stream().map(PizzaDTO::getCreationTime)
-                .reduce(0L, Long::sum);
+public Client generateClient() {
 
-        taskScheduler.schedule(new Runnable() {
-            @Override
-            public void run() {
-                cancelOrderMethod(c);
-            }
-        }, Instant.now().plus(plusMills, ChronoUnit.MILLIS));
-        Paydesk paydesk = paydeskServices.findBestPaydesk(restaurant);
-        QueueRequest queueRequest = new QueueRequest(
-                restaurant.getPaydesks().indexOf(paydesk),
-                restaurant.getClients().indexOf(c)
-        );
-        paydeskServices.standToQueue(queueRequest, restaurant);
-        return c;
-    }
+    Client c = clientServices.createNewClient(clientServices.randomOrder());
+    Long plusMills = c.getOrder()
+            .getPizzaList().stream().map(PizzaDTO::getCreationTime)
+            .reduce(0L, Long::sum);
+
+    taskScheduler.schedule(new Runnable() {
+        @Override
+        public void run() {
+            cancelOrderMethod(c);
+        }
+    }, Instant.now().plus(plusMills, ChronoUnit.MILLIS));
+
+
+    Paydesk paydesk = paydeskServices.findBestPaydesk(restaurant);
+    QueueRequest queueRequest = new QueueRequest(
+            restaurant.getPaydesks().indexOf(paydesk),
+            restaurant.getClients().indexOf(c)
+    );
+    paydeskServices.standToQueue(queueRequest, restaurant);
+
+    return c;
+}
 
     public void cancelOrderMethod(Client c) {
         if (c.getOrder().isCompleted()) return;
